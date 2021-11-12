@@ -1,4 +1,5 @@
 from src.validator import Validator
+from typing import Union
 
 
 class BaseDataClass:
@@ -15,6 +16,22 @@ class BaseDataClass:
                 r_dict[v] = self.__data.get(v)
         return r_dict
 
+    def __add_validation_error(self, v: str, error_value: str, v_key: str = None):
+        if v_key != None:
+            if v not in self.__validation_errors:
+                self.__validation_errors[v] = {}
+            self.__validation_errors[v][v_key] = error_value
+        else:
+            self.__validation_errors[v] = error_value
+
+    def __check_is_required(self, validation_rule: Union[str, tuple]):
+        if type(validation_rule) is tuple:
+            is_required = validation_rule[1]
+            validation_rule = validation_rule[0]
+            return validation_rule, is_required
+        else:
+            return validation_rule, "NOTREQUIRED"
+
     def __validate_dict(self, v: str, value: dict, validation_rules: dict) -> bool:
         if len(value) != len(validation_rules):
             self.__validation_errors[v] = 'length error'
@@ -22,24 +39,30 @@ class BaseDataClass:
         for key in validation_rules:
             v_value = value.get(key, None)
             if v_value == None:
-                if v not in self.__validation_errors:
-                    self.__validation_errors[v] = {}
-                self.__validation_errors[v][key] = v_value
-                return False
-            if str(v_value).strip() != "" and not self.__validator.validate(str(v_value), validation_rules[key]):
-                if v not in self.__validation_errors:
-                    self.__validation_errors[v] = {}
-                self.__validation_errors[v][key] = value
+                self.__add_validation_error(v, "Value required", key)
+            self.__validate_str(
+                v, str(v_value), validation_rule=validation_rules[key], v_key=key)
         return True
 
-    def __validate_str(self, v: str, value: str, validation_rule: str) -> bool:
+    def __validate_str(self, v: str, value: str, validation_rule: Union[str, tuple], v_key: str = None) -> bool:
+        validation_rule, is_required = self.__check_is_required(
+            validation_rule=validation_rule)
+        if is_required == "REQUIRED" and str(value).strip() == "":
+            self.__add_validation_error(v, "Value required", v_key)
+            return False
         if str(value).strip() != "" and not self.__validator.validate(str(value), validation_rule):
-            self.__validation_errors[v] = value
+            self.__add_validation_error(v, value, v_key)
             return False
         return True
 
     def __validate_int(self, v: str, value: int) -> bool:
         if not type(value) is int:
+            self.__validation_errors[v] = value
+            return False
+        return True
+
+    def __validate_bool(self, v: str, value: bool) -> bool:
+        if not type(value) is bool:
             self.__validation_errors[v] = value
             return False
         return True
@@ -60,6 +83,8 @@ class BaseDataClass:
                         v=v, value=value, validation_rule=validation)
                 elif annotation is int:
                     self.__validate_int(v=v, value=value)
+                elif annotation is bool:
+                    self.__validate_bool(v=v, value=value)
                 elif annotation is dict:
                     self.__validate_dict(
                         v=v, value=value, validation_rules=validation)
