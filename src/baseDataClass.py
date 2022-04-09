@@ -53,9 +53,13 @@ class BaseDataClass:
             return False
         return True
 
-    def __validate_int(self, v: str, value: int) -> bool:
-        if type(value) is not int:
+    def __validate_int(self, v: str, value: int, validation_rule: Union[str, tuple], v_key: str = None) -> bool:
+        validation_rule, is_required = self.__check_is_required(validation_rule=validation_rule)
+        if is_required == "REQUIRED" and type(value) is not int:
             self.__validation_errors[v] = value
+            return False
+        if value is not None and not self.__validator.validate(str(value), validation_rule):
+            self.__add_validation_error(v, value, v_key)
             return False
         return True
 
@@ -79,7 +83,7 @@ class BaseDataClass:
                 elif annotation is str:
                     self.__validate_str(v=v, value=value, validation_rule=validation)
                 elif annotation is int:
-                    self.__validate_int(v=v, value=value)
+                    self.__validate_int(v=v, value=value, validation_rule=validation)
                 elif annotation is bool:
                     self.__validate_bool(v=v, value=value)
                 elif annotation is dict:
@@ -96,7 +100,7 @@ class BaseDataClass:
                             if val_type == 'str':
                                 self.__validate_str(v=v, value=list_val, validation_rule=validation_rule)
                             if val_type == 'int':
-                                self.__validate_int(v=v, value=list_val)
+                                self.__validate_int(v=v, value=list_val, validation_rule=validation_rule)
                     else:
                         if v not in self.__validation_errors:
                             self.__validation_errors[v] = {}
