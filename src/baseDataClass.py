@@ -58,9 +58,13 @@ class BaseDataClass:
         if is_required == "REQUIRED" and type(value) is not int:
             self.__validation_errors[v] = value
             return False
-        if value is not None and not self.__validator.validate(str(value), validation_rule):
-            self.__add_validation_error(v, value, v_key)
-            return False
+        if value is not None:
+            if type(validation_rule) is int and type(value) is not int:
+                self.__add_validation_error(v, str(value), v_key)
+                return False
+            if type(validation_rule) is str and not self.__validator.validate(str(value), validation_rule):
+                self.__add_validation_error(v, str(value), v_key)
+                return False
         return True
 
     def __validate_bool(self, v: str, value: bool) -> bool:
