@@ -24,6 +24,7 @@ class BaseDataClass:
         else:
             self.__validation_errors[v] = error_value
 
+    @staticmethod
     def __check_is_required(self, validation_rule: Union[str, tuple]):
         if type(validation_rule) is tuple:
             is_required = validation_rule[1]
@@ -44,7 +45,7 @@ class BaseDataClass:
         return True
 
     def __validate_str(self, v: str, value: str, validation_rule: Union[str, tuple], v_key: str = None) -> bool:
-        validation_rule, is_required = self.__check_is_required(validation_rule=validation_rule)
+        validation_rule, is_required = BaseDataClass.__check_is_required(validation_rule=validation_rule)
         if is_required == "REQUIRED" and str(value).strip() == "":
             self.__add_validation_error(v, "Value required", v_key)
             return False
@@ -54,7 +55,7 @@ class BaseDataClass:
         return True
 
     def __validate_int(self, v: str, value: int, validation_rule: Union[str, tuple], v_key: str = None) -> bool:
-        validation_rule, is_required = self.__check_is_required(validation_rule=validation_rule)
+        validation_rule, is_required = BaseDataClass.__check_is_required(validation_rule=validation_rule)
         if is_required == "REQUIRED" and type(value) is not int:
             self.__validation_errors[v] = value
             return False
