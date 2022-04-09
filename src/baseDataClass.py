@@ -40,13 +40,11 @@ class BaseDataClass:
             v_value = value.get(key, None)
             if v_value is None:
                 self.__add_validation_error(v, "Value required", key)
-            self.__validate_str(
-                v, str(v_value), validation_rule=validation_rules[key], v_key=key)
+            self.__validate_str(v, str(v_value), validation_rule=validation_rules[key], v_key=key)
         return True
 
     def __validate_str(self, v: str, value: str, validation_rule: Union[str, tuple], v_key: str = None) -> bool:
-        validation_rule, is_required = self.__check_is_required(
-            validation_rule=validation_rule)
+        validation_rule, is_required = self.__check_is_required(validation_rule=validation_rule)
         if is_required == "REQUIRED" and str(value).strip() == "":
             self.__add_validation_error(v, "Value required", v_key)
             return False
@@ -79,8 +77,7 @@ class BaseDataClass:
                 if not isinstance(value, annotation):
                     self.__validation_errors[v] = value
                 elif annotation is str:
-                    self.__validate_str(
-                        v=v, value=value, validation_rule=validation)
+                    self.__validate_str(v=v, value=value, validation_rule=validation)
                 elif annotation is int:
                     self.__validate_int(v=v, value=value)
                 elif annotation is bool:
@@ -91,22 +88,19 @@ class BaseDataClass:
                 elif annotation is list:
                     if isinstance(validation[0], dict):
                         for list_val in value:
-                            self.__validate_dict(
-                                v=v, value=list_val, validation_rules=validation[0])
+                            self.__validate_dict(v=v, value=list_val, validation_rules=validation[0])
                     elif isinstance(validation[0], list):
                         val_type = validation[0][0]
                         validation_rule = validation[0][1]
                         for list_val in value:
                             if val_type == 'str':
-                                self.__validate_str(
-                                    v=v, value=list_val, validation_rule=validation_rule)
+                                self.__validate_str(v=v, value=list_val, validation_rule=validation_rule)
                             if val_type == 'int':
                                 self.__validate_int(v=v, value=list_val)
                     else:
                         if v not in self.__validation_errors:
                             self.__validation_errors[v] = {}
-                        self.__validation_errors[v][validation[0]
-                                                    ] = 'unknown type'
+                        self.__validation_errors[v][validation[0]] = 'unknown type'
 
     def is_validated(self) -> bool:
         self.__validate_data()
