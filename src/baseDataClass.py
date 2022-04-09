@@ -17,7 +17,7 @@ class BaseDataClass:
         return r_dict
 
     def __add_validation_error(self, v: str, error_value: str, v_key: str = None):
-        if v_key != None:
+        if v_key is not None:
             if v not in self.__validation_errors:
                 self.__validation_errors[v] = {}
             self.__validation_errors[v][v_key] = error_value
@@ -38,7 +38,7 @@ class BaseDataClass:
             return False
         for key in validation_rules:
             v_value = value.get(key, None)
-            if v_value == None:
+            if v_value is None:
                 self.__add_validation_error(v, "Value required", key)
             self.__validate_str(
                 v, str(v_value), validation_rule=validation_rules[key], v_key=key)
@@ -56,13 +56,13 @@ class BaseDataClass:
         return True
 
     def __validate_int(self, v: str, value: int) -> bool:
-        if not type(value) is int:
+        if type(value) is not int:
             self.__validation_errors[v] = value
             return False
         return True
 
     def __validate_bool(self, v: str, value: bool) -> bool:
-        if not type(value) is bool:
+        if type(value) is not bool:
             self.__validation_errors[v] = value
             return False
         return True
