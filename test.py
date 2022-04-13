@@ -3,7 +3,10 @@ from testBaseClass import TestBaseClass
 data = {
     'id': 1,
     'ipAddress': '192.168.1.1',
-    'enabled': True,
+    'enabled': False,
+    'option_if_enabled': '',
+    'httpmethod': 'request',
+    'httpmethod_conditioned_option': 'condition',
     'port': 65535,
     'option': {
         'name': 'murat',

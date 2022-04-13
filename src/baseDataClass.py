@@ -44,10 +44,26 @@ class BaseDataClass:
             self.__validate_str(v, str(v_value), validation_rule=validation_rules[key], v_key=key)
         return True
 
+    def __check_required_condition(self, required_condition: str) -> bool:
+        if required_condition[0:10] == "REQUIREDIF":
+            required = required_condition.split("_")
+            value = self.__data.get(required[1])
+            condition = required[2]
+            equation = required[3]
+            if equation.lower() == 'true':
+                equation = True
+            elif equation.lower() == 'false':
+                equation = False
+            if condition == 'is':
+                return value == equation
+            if condition == 'in':
+                return value in equation.split(',')
+        return False
+
     def __validate_str(self, v: str, value: str, validation_rule: Union[str, tuple], v_key: str = None) -> bool:
         validation_rule, is_required = BaseDataClass.__check_is_required(validation_rule=validation_rule)
-        if is_required == "REQUIRED" and str(value).strip() == "":
-            self.__add_validation_error(v, "Value required", v_key)
+        if (is_required == "REQUIRED" or self.__check_required_condition(is_required)) and str(value).strip() == "":
+            self.__add_validation_error(v, "Value is required", v_key)
             return False
         if str(value).strip() != "" and not self.__validator.validate(str(value), validation_rule):
             self.__add_validation_error(v, value, v_key)
