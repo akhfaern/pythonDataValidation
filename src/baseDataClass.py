@@ -63,9 +63,17 @@ class BaseDataClass:
             if type(validation_rule) is int and type(value) is not int:
                 self.__add_validation_error(v, str(value), v_key)
                 return False
-            if type(validation_rule) is str and not self.__validator.validate(str(value), validation_rule):
-                self.__add_validation_error(v, str(value), v_key)
-                return False
+            if type(validation_rule) is str:
+                _validation_rule = validation_rule.split("_")
+                if _validation_rule[0] == "NUMBERBETWEEN":
+                    min_value = int(_validation_rule[1])
+                    max_value = int(_validation_rule[2])
+                    if value < min_value or value > max_value:
+                        self.__add_validation_error(v, str(value), v_key)
+                        return False
+                if not self.__validator.validate(str(value), validation_rule):
+                    self.__add_validation_error(v, str(value), v_key)
+                    return False
         return True
 
     def __validate_bool(self, v: str, value: bool) -> bool:
