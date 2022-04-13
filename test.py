@@ -3,6 +3,7 @@ from testBaseClass import TestBaseClass
 data = {
     'id': 1,
     'ipAddress': '192.168.1.1',
+    'ipAddressPort': '192.168.1.1:80',
     'enabled': False,
     'option_if_enabled': '',
     'httpmethod': 'request',

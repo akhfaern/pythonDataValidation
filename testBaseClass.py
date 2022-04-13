@@ -8,6 +8,7 @@ class TestBaseClass(BaseDataClass):
     httpmethod: str = "REQUEST_RESPONSE_REGEX"
     httpmethod_conditioned_option: str = "NAME_REGEX", "REQUIREDIF_httpmethod_in_request,response"
     ipAddress: str = "IP_REGEX", "REQUIRED"  # str
+    ipAddressPort: str = "IP_PORT_REGEX", "REQUIRED"  # str
     port: int = "NUMBERBETWEEN_1_65535", "REQUIRED"  # int
     option: dict = {'name': 'NAME_REGEX', 'key': 'FULL_NAME_REGEX'}  # dict
     option_list: list = [{'id': 'NUMBER_REGEX', 'http': ('REQUEST_RESPONSE_REGEX', 'REQUIRED')}]  # dict list
