@@ -3,6 +3,7 @@ from src.baseDataClass import BaseDataClass
 
 class TestBaseClass(BaseDataClass):
     id: int = 0  # int
+    enabled: bool = True, "REQUIRED"  # bool
     ipAddress: str = "IP_REGEX", "REQUIRED"  # str
     port: int = "NUMBERBETWEEN_1_65535", "REQUIRED"  # int
     option: dict = {'name': 'NAME_REGEX', 'key': 'FULL_NAME_REGEX'}  # dict

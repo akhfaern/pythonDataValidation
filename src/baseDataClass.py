@@ -102,10 +102,9 @@ class BaseDataClass:
                 elif annotation is int:
                     self.__validate_int(v=v, value=value, validation_rule=validation)
                 elif annotation is bool:
-                    self.__validate_bool(v=v, value=value)
+                    self.__validate_bool(v=v, value=value, validation_rule=validation)
                 elif annotation is dict:
-                    self.__validate_dict(
-                        v=v, value=value, validation_rules=validation)
+                    self.__validate_dict(v=v, value=value, validation_rules=validation)
                 elif annotation is list:
                     if isinstance(validation[0], dict):
                         for list_val in value:

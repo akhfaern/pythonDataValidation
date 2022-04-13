@@ -3,6 +3,7 @@ from testBaseClass import TestBaseClass
 data = {
     'id': 1,
     'ipAddress': '192.168.1.1',
+    'enabled': True,
     'port': 65535,
     'option': {
         'name': 'murat',
