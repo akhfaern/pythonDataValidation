@@ -3,13 +3,14 @@ from testBaseClass import TestBaseClass
 data = {
     'id': 1,
     'ipAddress': '192.168.1.1',
+    'port': 65535,
     'option': {
         'name': 'murat',
         'key': 'yalin'
     },
     'option_list': [
         {'id': 1, 'http': 'request'},
-        {'id': 2, 'http': ''}
+        {'id': 2, 'http': 'response'}
     ],
     'list2': ['murat']
 }

@@ -25,7 +25,7 @@ class BaseDataClass:
             self.__validation_errors[v] = error_value
 
     @staticmethod
-    def __check_is_required(self, validation_rule: Union[str, tuple]):
+    def __check_is_required(validation_rule: Union[str, tuple]):
         if type(validation_rule) is tuple:
             is_required = validation_rule[1]
             validation_rule = validation_rule[0]
@@ -71,7 +71,7 @@ class BaseDataClass:
                     if value < min_value or value > max_value:
                         self.__add_validation_error(v, str(value), v_key)
                         return False
-                if not self.__validator.validate(str(value), validation_rule):
+                elif not self.__validator.validate(str(value), validation_rule):
                     self.__add_validation_error(v, str(value), v_key)
                     return False
         return True
