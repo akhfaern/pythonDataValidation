@@ -57,7 +57,7 @@ class BaseDataClass:
     def __validate_int(self, v: str, value: int, validation_rule: Union[str, tuple], v_key: str = None) -> bool:
         validation_rule, is_required = BaseDataClass.__check_is_required(validation_rule=validation_rule)
         if is_required == "REQUIRED" and type(value) is not int:
-            self.__validation_errors[v] = value
+            self.__add_validation_error(v, str(value), v_key)
             return False
         if value is not None:
             if type(validation_rule) is int and type(value) is not int:
@@ -76,9 +76,13 @@ class BaseDataClass:
                     return False
         return True
 
-    def __validate_bool(self, v: str, value: bool) -> bool:
-        if type(value) is not bool:
-            self.__validation_errors[v] = value
+    def __validate_bool(self, v: str, value: bool, validation_rule: Union[str, tuple], v_key: str = None) -> bool:
+        validation_rule, is_required = BaseDataClass.__check_is_required(validation_rule=validation_rule)
+        if is_required == "REQUIRED" and type(value) is not bool:
+            self.__add_validation_error(v, str(value), v_key)
+            return False
+        if value is not None and type(value) is not bool:
+            self.__add_validation_error(v, str(value), v_key)
             return False
         return True
 
