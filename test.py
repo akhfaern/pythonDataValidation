@@ -13,6 +13,7 @@ data = {
         'name': 'murat',
         'key': 'yalin'
     },
+    'optionlistchecked': True,
     'option_list': [
         {'id': 1, 'http': 'request'},
         {'id': 2, 'http': 'response'}

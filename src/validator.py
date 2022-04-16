@@ -3,7 +3,7 @@ import re
 
 class Validator:
     def __init__(self) -> None:
-        self.NAME_REGEX = "^(([a-zA-Z0-9_\\-.]{0,31}|[a-zA-Z0-9_\\-.]{0,30}\\$)|[a-zA-Z0-9.#$*+\\/=?_{|}~-]+@[a-zA-Z0-9.-]{2,30}\\.[a-zA-Z]{2,30})$"
+        self.NAME_REGEX = "^[a-zA-Z0-9ğüşöçıİĞÜŞÖÇI_-]{0,256}$"
         self.FILE_NAME_REGEX = "^[^\\\\\\/:\\*\\!?`'&$;\"<>\\|]+$"
         self.PASSWORD_REGEX = "^.*$"
         self.NUMBER_REGEX = "^[-+]?[0-9]+$"
