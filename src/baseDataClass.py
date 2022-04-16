@@ -33,7 +33,7 @@ class BaseDataClass:
     def __check_required_condition(self, required_condition: str) -> bool:
         if required_condition[0:10] == "REQUIREDIF":
             required = required_condition.split("_")
-            value = self.__data.get(required[1])
+            value = self.__data.get(required[1].replace("-", "_"))
             condition = required[2]
             equation = required[3]
             if equation.lower() == 'true':

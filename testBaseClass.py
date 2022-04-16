@@ -13,5 +13,5 @@ class TestBaseClass(BaseDataClass):
     option: dict = {'name': 'NAME_REGEX', 'key': 'FULL_NAME_REGEX'}  # dict
     optionlistchecked: bool = True, "REQUIRED"
     option_list: list = [{'id': 'NUMBER_REGEX', 'http': (
-        'REQUEST_RESPONSE_REGEX', 'REQUIRED')}], "REQUIREDIF_optionlistchecked_is_true"  # dict list
+        'REQUEST_RESPONSE_REGEX', 'REQUIRED')}], "REQUIREDIF_option-list-checked_is_true"  # dict list
     list2: list = [['str', 'NAME_REGEX']]  # string list
